@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RMS Titanic Passenger Register & Historical Ledger</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo-area">
+                <span class="flag-stripe green"></span>
+                <span class="flag-stripe white"></span>
+                <span class="flag-stripe red"></span>
+                <h2>Titanic <span>Ledger</span></h2>
+            </div>
+            <nav class="nav-links">
+                <button class="nav-btn active" data-tab="overview">
+                    <svg viewBox="0 0 24 24" width="20" height="20"><path d="M19,5V7H15V5H19M9,5V11H5V5H9M19,13V19H15V13H19M9,17V19H5V17H9M21,3H13V9H21V3M11,3H3V13H11V3M21,11H13V21H21V11M11,15H3V21H11V15Z" fill="currentColor"/></svg>
+                    Logbook Summary
+                </button>
+                <button class="nav-btn" data-tab="cleaning">
+                    <svg viewBox="0 0 24 24" width="20" height="20"><path d="M19.36,2.72L20.78,4.14L15.06,9.85C16.13,11.39 16.28,13.24 15.38,14.44L9.06,8.12C10.26,7.22 12.11,7.37 13.65,8.44L19.36,2.72M5.93,17.57C3.92,15.56 2.69,13.16 2.06,10.68C2.5,10.97 3,11.14 3.5,11.14C4.8,11.14 5.92,10.26 6.27,9.06L14.44,17.23C13.24,18.13 11.39,17.98 9.85,16.91L4.14,22.62L2.72,21.2L8.44,15.48C7.37,14.41 7.22,12.56 8.12,11.36L14.44,17.68C13.24,18.58 11.39,18.43 9.85,17.36L4.14,23.07L2.72,21.65L8.44,15.93C7.37,14.86 7.22,13.01 8.12,11.81L14.44,18.13" fill="currentColor"/></svg>
+                    Record Reconciliation
+                </button>
+                <button class="nav-btn" data-tab="charts">
+                    <svg viewBox="0 0 24 24" width="20" height="20"><path d="M16,11.78L20.24,4.45L21.97,5.45L16.74,14.5L10.23,10.75L5.46,19H22V21H2V3H4V17.54L9.5,8L16,11.78Z" fill="currentColor"/></svg>
+                    Survival Demographics
+                </button>
+                <button class="nav-btn" data-tab="explorer">
+                    <svg viewBox="0 0 24 24" width="20" height="20"><path d="M15.5,14H14.71L14.43,13.73C15.41,12.59 16,11.11 16,9.5A6.5,6.5 0 0,0 9.5,3A6.5,6.5 0 0,0 3,9.5A6.5,6.5 0 0,0 9.5,16C11.11,16 12.59,15.41 13.73,14.43L14,14.71V15.5L19,20.5L20.5,19L15.5,14M9.5,14C7.01,14 5,11.99 5,9.5C5,7.01 7.01,5 9.5,5C11.99,5 14,7.01 14,9.5C14,11.99 11.99,14 9.5,14Z" fill="currentColor"/></svg>
+                    Passenger Logbook
+                </button>
+                <button class="nav-btn" data-tab="predictor">
+                    <svg viewBox="0 0 24 24" width="20" height="20"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,6A6,6 0 0,0 6,12A6,6 0 0,0 12,18A6,6 0 0,0 18,12A6,6 0 0,0 12,6M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8Z" fill="currentColor"/></svg>
+                    Survival Estimator
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <p>Maritime Archives</p>
+                <small>White Star Line Records</small>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-bar">
+                <div class="header-title">
+                    <h1>RMS Titanic Passenger Register</h1>
+                    <p>Official registry records, demographics, and survival statistics of the April 1912 tragedy</p>
+                </div>
+                <div class="header-badges">
+                    <span class="badge badge-green">Survived</span>
+                    <span class="badge badge-white">Total</span>
+                    <span class="badge badge-red">Deceased</span>
+                </div>
+            </header>
+
+            <!-- TAB: Overview -->
+            <section id="overview" class="tab-pane active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon red-bg">💀</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="stat-died">-</span>
+                            <span class="stat-label">Lost Aboard</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green-bg">💚</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="stat-survived">-</span>
+                            <span class="stat-label">Saved Passengers</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon white-bg">🚢</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="stat-total">-</span>
+                            <span class="stat-label">Registered Sample</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green-red-bg">📊</div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="stat-rate">-</span>
+                            <span class="stat-label">Survival Rate</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="content-row">
+                    <div class="content-card flex-2">
+                        <h3>Registry Log & Historical Context</h3>
+                        <p>The Titanic passenger registry holds the verified ledger entries for the travelers on board the White Star Line steamer during its maiden voyage. In reconstructing this historical record, we have performed the following steps to reconcile incomplete logs:</p>
+                        <ul class="fancy-list">
+                            <li><strong>Record Reconciliation:</strong> Resolved incomplete fields (such as missing ages, boarding ports, and cabin numbers) to restore ledger integrity.</li>
+                            <li><strong>Demographic Profiling:</strong> Modeled age brackets and boarding classes to identify patterns of survival.</li>
+                            <li><strong>Reconstructed Ledgers:</strong> Formulated relationships between passenger details and survival status to understand the impact of cabin allocations and deck positioning.</li>
+                        </ul>
+                    </div>
+                    <div class="content-card flex-1 centering">
+                        <h3>Survival Breakdown</h3>
+                        <div class="chart-container-pie">
+                            <canvas id="overviewPieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB: Record Reconciliation -->
+            <section id="cleaning" class="tab-pane">
+                <div class="content-row">
+                    <div class="content-card flex-1">
+                        <h3>Reconciled Log Fields</h3>
+                        <table class="data-table small-table">
+                            <thead>
+                                <tr>
+                                    <th>Registry Field</th>
+                                    <th>Unresolved Before</th>
+                                    <th>Unresolved After</th>
+                                    <th>Reconciliation Method</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cleaning-table-body">
+                                <!-- Dynamically populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="content-card flex-1">
+                        <h3>Reconciliation Methodology</h3>
+                        <div class="cleaning-steps">
+                            <div class="step-item">
+                                <div class="step-num green">1</div>
+                                <div class="step-desc">
+                                    <h4>Age Fields Restoration</h4>
+                                    <p>Identified empty age fields and assigned the median age of 28.0 to maintain consistent profile distributions without introducing bias.</p>
+                                </div>
+                            </div>
+                            <div class="step-item">
+                                <div class="step-num white">2</div>
+                                <div class="step-desc">
+                                    <h4>Port of Embarkation</h4>
+                                    <p>Resolved missing boarding locations by referencing passenger travel schedules, attributing them to the Southampton mode ('S').</p>
+                                </div>
+                            </div>
+                            <div class="step-item">
+                                <div class="step-num red">3</div>
+                                <div class="step-desc">
+                                    <h4>Cabin and Deck Location</h4>
+                                    <p>Extracted deck designations (A-G) from structural room codes to evaluate passenger cabin distribution across different levels of the ship.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB: Charts -->
+            <section id="charts" class="tab-pane">
+                <div class="charts-grid">
+                    <div class="content-card">
+                        <h3>Survival Rate by Gender</h3>
+                        <div class="chart-container">
+                            <canvas id="genderBarChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="content-card">
+                        <h3>Survival Rate by Passenger Class</h3>
+                        <div class="chart-container">
+                            <canvas id="classBarChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="content-card">
+                        <h3>Survival Rate by Age Group</h3>
+                        <div class="chart-container">
+                            <canvas id="ageGroupChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="content-card">
+                        <h3>Feature Correlation Ledger</h3>
+                        <div class="chart-container">
+                            <canvas id="correlationHeatmap"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB: Passenger Logbook -->
+            <section id="explorer" class="tab-pane">
+                <div class="content-card">
+                    <div class="explorer-header">
+                        <h3>Historical Logbook Records</h3>
+                        <div class="search-box">
+                            <input type="text" id="table-search" placeholder="Filter by passenger name, sex, cabin...">
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table" id="passengers-table">
+                            <thead>
+                                <tr>
+                                    <th>Class</th>
+                                    <th>Name</th>
+                                    <th>Sex</th>
+                                    <th>Age</th>
+                                    <th>SibSp</th>
+                                    <th>Parch</th>
+                                    <th>Fare</th>
+                                    <th>Embarked</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="passengers-table-body">
+                                <!-- Dynamically populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB: Survival Estimator -->
+            <section id="predictor" class="tab-pane">
+                <div class="content-row">
+                    <div class="content-card flex-1">
+                        <h3>Logbook Profile Estimator</h3>
+                        <p>Input traveler criteria below to calculate the estimated survival probability based on archival demographics:</p>
+                        <form id="calculator-form" class="calc-form">
+                            <div class="form-group">
+                                <label for="calc-sex">Gender</label>
+                                <select id="calc-sex">
+                                    <option value="female">Female</option>
+                                    <option value="male">Male</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="calc-class">Passenger Class (Pclass)</label>
+                                <select id="calc-class">
+                                    <option value="1">1st Class (Upper Deck)</option>
+                                    <option value="2">2nd Class (Middle Deck)</option>
+                                    <option value="3">3rd Class (Lower Deck)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="calc-age">Age (Years)</label>
+                                <input type="number" id="calc-age" min="0" max="100" value="25">
+                            </div>
+                            <div class="form-group">
+                                <label for="calc-family">Family Members Aboard (SibSp + Parch)</label>
+                                <input type="number" id="calc-family" min="0" max="15" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="calc-embarked">Port of Embarkation</label>
+                                <select id="calc-embarked">
+                                    <option value="C">Cherbourg</option>
+                                    <option value="Q">Queenstown</option>
+                                    <option value="S">Southampton</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-green">Run Ledger Estimation</button>
+                        </form>
+                    </div>
+                    <div class="content-card flex-1 centering">
+                        <h3>Survival Outcome Estimation</h3>
+                        <div id="calc-result-box" class="result-box neutral-result">
+                            <div class="result-icon">🚢</div>
+                            <h4 id="result-status">Awaiting Inquiry</h4>
+                            <div class="result-percent" id="result-percent">-%</div>
+                            <p id="result-details">Enter demographic data to calculate the probability of survival based on historical logbook patterns.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
